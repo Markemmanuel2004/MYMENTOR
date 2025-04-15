@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "My Mentor",
+  "version": "0.1",
+  "author": "Mark",
+  "permissions": [
+    "storage",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://manavrachna.edu.in/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["img/*.svg", "public/font/*.woff2"],
+      "matches": ["https://manavrachna.edu.in/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://manavrachna.edu.in/*"],
+      "js": ["popup.js","content.js"],
+      "css": ["popup.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "ext-icon.png",
+      "24": "ext-icon.png",
+      "32": "ext-icon.png"
+    },
+    "default_popup": "popup.html",
+    "default_title": "My Mentor"
+  }
+}
