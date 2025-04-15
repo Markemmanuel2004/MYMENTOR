@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log("Received message:", request.message);
 
         fetch(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCBalvaT8iNQDYX9eROmOvftMKMIZOZFnI",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=yourapikey",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
