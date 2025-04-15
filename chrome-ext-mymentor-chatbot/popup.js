@@ -1,4 +1,4 @@
-const apiKey = "AIzaSyCBalvaT8iNQDYX9eROmOvftMKMIZOZFnI"; // Replace with your actual API key
+const apiKey = "YOURAPIKEY"; // Replace with your actual API key
 
 document.addEventListener("DOMContentLoaded", function () {
     const chatboxMessages = document.getElementById("chatbox-messages");
