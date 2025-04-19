@@ -17,14 +17,14 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["img/*.svg", "public/font/*.woff2"],
-      "matches": ["https://manavrachna.edu.in/*"]
+      "resources": ["img/*.svg", "public/font/*.woff2","policy_chunks.json"],
+      "matches": ["<all_urls>"]
     }
   ],
   "content_scripts": [
     {
       "matches": ["https://manavrachna.edu.in/*"],
-      "js": ["popup.js","content.js"],
+      "js": ["content.js"],
       "css": ["popup.css"],
       "run_at": "document_end"
     }
