@@ -3,10 +3,11 @@ function isChatbotAlreadyInjected() {
     return document.getElementById("mentor-btn") !== null;
 }
 
-// Function to create the chatbot UI
+// ... (previous code remains the same until the createMentorChat function)
+
 function createMentorChat() {
     if (isChatbotAlreadyInjected()) {
-        return; // Prevent duplicate buttons
+        return;
     }
 
     // Create mentor button
@@ -18,6 +19,14 @@ function createMentorChat() {
     let chatbox = document.createElement("div");
     chatbox.id = "chatbox";
     chatbox.classList.add("hidden");
+
+    // Create messages container
+    let messagesContainer = document.createElement("div");
+    messagesContainer.id = "chatbox-messages";
+
+    // Create input container
+    let inputContainer = document.createElement("div");
+    inputContainer.id = "chatbox-input-container";
 
     // Create input field
     let inputField = document.createElement("input");
@@ -31,8 +40,10 @@ function createMentorChat() {
     sendBtn.innerText = "Send";
 
     // Append elements to chatbox
-    chatbox.appendChild(inputField);
-    chatbox.appendChild(sendBtn);
+    inputContainer.appendChild(inputField);
+    inputContainer.appendChild(sendBtn);
+    chatbox.appendChild(messagesContainer);
+    chatbox.appendChild(inputContainer);
     document.body.appendChild(mentorBtn);
     document.body.appendChild(chatbox);
 
@@ -41,20 +52,25 @@ function createMentorChat() {
         chatbox.classList.toggle("hidden");
     });
 
+    function addMessage(text, sender) {
+        const message = document.createElement("p");
+        message.innerHTML = `<b>${sender}:</b> ${text}`;
+        message.classList.add(sender);
+        messagesContainer.appendChild(message);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
     // Send message to Gemini API when clicking send button
     sendBtn.addEventListener("click", async function () {
         let userInput = inputField.value.trim();
         if (!userInput) return;
 
-        // Display user message
-        chatbox.innerHTML += `<p><b>You:</b> ${userInput}</p>`;
+        addMessage(userInput, "You");
         inputField.value = "";
-
-        console.log("Sending message to Gemini:", userInput);
 
         try {
             const response = await fetch(
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=yourapikey",
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCBalvaT8iNQDYX9eROmOvftMKMIZOZFnI",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -65,19 +81,16 @@ function createMentorChat() {
             );
 
             const data = await response.json();
-            console.log("Gemini API Response:", data);
-
-            // Extract bot response
             const botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't understand.";
-
-            // Display bot response
-            chatbox.innerHTML += `<p><b>Bot:</b> ${botReply}</p>`;
+            addMessage(botReply, "Bot");
         } catch (error) {
             console.error("Error fetching from Gemini:", error);
-            chatbox.innerHTML += `<p><b>Bot:</b> Error fetching response.</p>`;
+            addMessage("Error fetching response.", "Bot");
         }
     });
 }
+
+// ... (rest of the code remains the same)
 
 // Inject chatbot UI only if the page is loaded
 if (document.readyState === "loading") {
